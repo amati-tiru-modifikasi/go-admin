@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   backend:
     container_name: go-admin
     environment:
@@ -12,17 +11,30 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   
   db:
-    image: mysql:5.7.22
+    image: docker.io/mysql:5.7.39
+    container_name: ambassadordb
     restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="$$(cat /run/secrets/db-password)" --silent']
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    secrets:
+      - db-password
     environment:
-      MYSQL_DATABASE: ambassador
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=ambassador
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     volumes:
       - .dbdata:/var/lib/mysql
     ports:
-      - 3306:3306
+      - "3306:3306"
+
+secrets:
+  db-password:
+    file: password.txt
