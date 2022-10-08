@@ -8,14 +8,17 @@ services:
       dockerfile: DockerFile
     ports:
       - 8000:8000
+    command: sh -c "sleep 60"
     volumes:
       - .:/app
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - ambasador_network
   
   db:
-    image: docker.io/mysql:5.7.39
+    image: docker.io/mariadb:10-focal
     container_name: ambassadordb
     restart: always
     healthcheck:
@@ -34,7 +37,13 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - ambasador_network
 
 secrets:
   db-password:
     file: password.txt
+
+networks:
+  ambasador_network:
+    driver: bridge
