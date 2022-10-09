@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	_, err := gorm.Open(mysql.Open("docker:password@tcp(ambassadordb)/ambassador"), &gorm.Config{})
+	_, err := gorm.Open(mysql.Open("root:toor@tcp(127.0.0.1)/ambassador"), &gorm.Config{})
 
 	if err != nil {
 		panic("Gagal Terkoneksi")
