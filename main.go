@@ -1,19 +1,15 @@
 package main
 
 import (
+	"ambassador/src/database"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 func main() {
-	_, err := gorm.Open(mysql.Open("root:toor@tcp(127.0.0.1)/ambassador"), &gorm.Config{})
 
-	if err != nil {
-		panic("Gagal Terkoneksi")
-	}
+	database.Connect()
 
 	app := fiber.New()
 
