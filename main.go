@@ -2,7 +2,6 @@ package main
 
 import (
 	"ambassador/src/database"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -10,6 +9,7 @@ import (
 func main() {
 
 	database.Connect()
+	database.AutoMigrate()
 
 	app := fiber.New()
 
@@ -17,5 +17,5 @@ func main() {
 		return c.SendString("Hello, World!")
 	})
 
-	log.Fatal(app.Listen(":8000"))
+	app.Listen(":8000")
 }
