@@ -1,22 +1,15 @@
 version: "3"
 services:
   backend:
-    container_name: go-admin
-    environment:
-      - VERSION=podman
     build:
       dockerfile: DockerFile
     ports:
-      - 8000:8000
-    command: sh -c "sleep 60"
-    volumes:
-      - .:/app
+      - "8081:8081"
     depends_on:
       db:
         condition: service_healthy
     networks:
       - ambasador_network
-  
   db:
     image: docker.io/mariadb:10-focal
     container_name: ambassadordb

@@ -13,7 +13,7 @@ var DB *gorm.DB
 func Connect() {
 	var err error
 
-	DB, err = gorm.Open(mysql.Open("root:toor@tcp(127.0.0.1)/ambassador"), &gorm.Config{})
+	DB, err = gorm.Open(mysql.Open("docker:password@tcp(ambassadordb)/ambassador"), &gorm.Config{})
 
 	if err != nil {
 		panic("Gagal Terkoneksi")
